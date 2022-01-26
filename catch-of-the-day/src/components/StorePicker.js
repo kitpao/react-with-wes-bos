@@ -8,8 +8,10 @@ class StorePicker extends React.Component {
     // the form should not submit
     e.preventDefault();
     // should get the input
-    console.log(this.myInput);
+    const store = this.myInput.current.value;
     // go to the /store/input
+    this.props.history.push(`store/${store}`);
+    //inherited method from routes, since this component is a child
   }
 
   render() {
