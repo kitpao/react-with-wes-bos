@@ -8,7 +8,9 @@ class AddFishForm extends React.Component {
   imageRef = React.createRef();
 
   createFish = (e) => {
+    // prevent refreshing the page
     e.preventDefault()
+    // create object
     const fish = {
       name: this.nameRef.current.value,
       price: parseFloat(this.priceRef.current.value),
@@ -16,7 +18,9 @@ class AddFishForm extends React.Component {
       desc: this.descRef.current.value,
       image: this.imageRef.current.value,
     }
-  this.props.addFish(fish)
+    this.props.addFish(fish);
+    //refresh the form
+    e.currentTarget.reset();
   }
 
   render() {
