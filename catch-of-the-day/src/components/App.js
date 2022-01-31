@@ -11,7 +11,7 @@ class App extends React.Component {
     order: {},
   };
 
-  addFish= fish => { // To change state,
+  addFish = fish => { // To change state,
     // First create a copy
     const fishes = { ...this.state.fishes };
     // Then modify the copy
@@ -20,6 +20,15 @@ class App extends React.Component {
     this.setState({
       fishes // same as fishes: fishes
     })
+  }
+
+  addToOrder = (key) => {
+    // Create a copy of state
+    const order = { ...this.state.order };
+    // add item to order or update the quantity
+    order[key] = order[key] + 1 || 1
+    // add it to the original with setState
+    this.setState({ order })
   }
 
   loadSampleFishes = () => {
@@ -36,6 +45,8 @@ class App extends React.Component {
               <Fish
                 key={key}
                 details={this.state.fishes[key]}
+                addToOrder={this.addToOrder}
+                fishId={key}
               />
             )}
 
