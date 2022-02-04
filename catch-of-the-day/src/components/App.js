@@ -14,10 +14,24 @@ class App extends React.Component {
 
   componentDidMount() {
     const { params } = this.props.match;
+    // get previous local storage values from prev key
+    const localStorageRef = localStorage.getItem(params.storeID)
+    // if there was data before, update state
+    if(localStorageRef){
+      this.setState({order: JSON.parse(localStorageRef)})
+    } // make sure to check the dependencies, this needs a fish to exist before
     this.ref = base.syncState(`${params.storeID}/fishes`,{
       context: this,
       state: 'fishes'
     });
+  }
+
+  componentDidUpdate() {
+    localStorage.setItem(
+      this.props.match.params.storeID,
+      JSON.stringify(this.state.order)
+    );
+    //key, value in app debug tools, value in JSON
   }
 
   componentWillUnmount() {
