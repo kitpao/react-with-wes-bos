@@ -15,7 +15,7 @@ class Order extends React.Component {
         <CSSTransition
           classNames="order"
           key={key}
-          timeout={{enter: 250, exit: 250 }}
+          timeout={{enter: 500, exit: 500 }}
         >
           <li key={key}>
             {counter} lbs of {fish.name}

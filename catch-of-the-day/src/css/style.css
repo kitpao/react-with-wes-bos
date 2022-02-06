@@ -1,3 +1,23 @@
+.order-enter {
+  transform: translateX(-120%);
+  transition: 0.5s;
+  max-height: 0;
+  padding: 0 !important;
+}
+.order-enter.order-enter-active {
+  transform: translateX(0);
+  max-height: 60px;
+  padding: 2rem 0 !important;
+}
+.order-exit {
+  transform: translateX(0);
+  transition: 0.5s;
+}
+.order-exit.order-exit-active {
+  transform: translateX(120%);
+  max-height: 0;
+  padding: 0 !important;
+}
 @font-face {
   font-family: "haymakerregular";
   src: url("./fonts/haymaker-webfont.eot");
