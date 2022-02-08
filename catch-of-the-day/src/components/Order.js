@@ -7,7 +7,7 @@ class Order extends React.Component {
     const fish = this.props.fishes[key]
     // when order loads before the fish
     if(!fish) return null;
-    const counter = this.props.order[key];
+    const count = this.props.order[key];
     const isAvailable = fish.status === "available";
 
     if(isAvailable) {
@@ -18,9 +18,20 @@ class Order extends React.Component {
           timeout={{enter: 500, exit: 500 }}
         >
           <li key={key}>
-            {counter} lbs of {fish.name}
-            <strong>{formatPrice(fish.price * counter)}</strong>
-            <button onClick={() => this.props.removeFromOrder(key)}>&times;</button>
+            <span>
+              <TransitionGroup component="span" className="count">
+                <CSSTransition
+                  classNames="count"
+                  key={count}
+                  timeout={{ enter: 500, exit: 500 }}
+                >
+                  <span>{count}</span>
+                </CSSTransition>
+              </TransitionGroup>
+              lbs of {fish.name}
+              <strong>{formatPrice(fish.price * count)}</strong>
+              <button onClick={() => this.props.removeFromOrder(key)}>&times;</button>
+            </span>
           </li>
         </CSSTransition>
       );
@@ -29,7 +40,7 @@ class Order extends React.Component {
         <CSSTransition
           classNames="order"
           key={key}
-          timeout={{enter: 250, exit: 250 }}
+          timeout={{enter: 500, exit: 500 }}
         >
           <li key={key}>
             Sorry, {fish ? fish.name : "fish"} is no longer available
@@ -45,9 +56,9 @@ class Order extends React.Component {
       const fish = this.props.fishes[key];
       const isAvailable = fish && fish.status === "available";
       const fishPrice = fish && fish.price;
-      const fishCounter = this.props.order[key];
+      const fishCount = this.props.order[key];
       if(isAvailable){
-        return prevTotal + (fishPrice * fishCounter)
+        return prevTotal + (fishPrice * fishCount)
       }
       return prevTotal
     }, 0)
