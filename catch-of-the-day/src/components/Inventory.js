@@ -4,7 +4,7 @@ import firebase from 'firebase';
 import AddFishForm from './AddFishForm';
 import EditFishForm from './EditFishForm';
 import Login from './Login';
-import { firebaseApp } from '../base';
+import base, { firebaseApp } from '../base';
 
 
 class Inventory extends React.Component {
@@ -15,8 +15,26 @@ class Inventory extends React.Component {
     fishes: PropTypes.object,
   };
 
-  authHandler = async authData => {
-    console.log(authData)
+  state = {
+    uid: null,
+    owner: null
+  }
+
+  authHandler = async (authData) => {
+    // 1. Look for the store in firebase
+    const store = await base.fetch(this.props.storeId, { context: this});
+    console.log(store)
+    // 2. Claim it if there is no owner (1st to open store)
+    if(!store.owner){
+      await base.post(`${this.props.storeId}/owner`, {
+        data: authData.user.uid
+      })
+    }
+    // 3. If owner, display component, else message. Via state of inventory
+    this.setState({
+      uid: authData.user.uid,
+      owner: store.owner || authData.user.uid
+    })
   };
 
   authenticate = (provider) => {
