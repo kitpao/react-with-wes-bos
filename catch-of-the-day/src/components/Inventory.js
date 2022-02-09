@@ -45,7 +45,13 @@ class Inventory extends React.Component {
       .then(this.authHandler);
   };
 
+  logout = async () => {
+    await firebase.auth().signOut();
+    this.setState({ uid: null});
+  }
+
   render() {
+    const logoutBtn = <button onClick={this.logout}>Log Out!</button>
     // 1. check the logged-in status
     if(!this.state.uid){
       return <Login authenticate={this.authenticate}/>
@@ -55,6 +61,7 @@ class Inventory extends React.Component {
       return (
         <div>
           <p>Sorry, you are not the owner of this store!</p>
+          {logoutBtn}
         </div>
       )
     }
@@ -62,6 +69,7 @@ class Inventory extends React.Component {
     return (
       <div className="inventory">
         <h2>Inventory</h2>
+        {logoutBtn}
         {Object.keys(this.props.fishes).map(key =>
           <EditFishForm
             key={key}
