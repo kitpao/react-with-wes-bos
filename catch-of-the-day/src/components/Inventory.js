@@ -20,10 +20,18 @@ class Inventory extends React.Component {
     owner: null
   }
 
+  componentDidMount(){
+    // check if there was a login before
+    firebase.auth().onAuthStateChanged(user => {
+      if(user) {
+        this.authHandler({ user });
+      }
+    })
+  }
+
   authHandler = async (authData) => {
     // 1. Look for the store in firebase
     const store = await base.fetch(this.props.storeId, { context: this});
-    console.log(store)
     // 2. Claim it if there is no owner (1st to open store)
     if(!store.owner){
       await base.post(`${this.props.storeId}/owner`, {
